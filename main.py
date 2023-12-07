@@ -8,6 +8,9 @@ app = FastAPI()
 async def update_sensor(*, event: SensorUpdateEvent) -> None:
 
     if event.SensorType == 'placement':
+        if event.StationId != 1:
+            raise HTTPException(status_code=404, detail="station not found")
+        
         if event.Location not in ['test1', 'test2']:
             raise HTTPException(status_code=404, detail="location not found")
 
